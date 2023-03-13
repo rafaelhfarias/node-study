@@ -17,9 +17,9 @@ class Database {
         return true
     }
 
-    async addHero(hero){
+    async addHero(hero) {
         const data = await this.getFileData()
-        const id = hero.id <=2 ? hero.id : Date.now()
+        const id = hero.id <= 2 ? hero.id : Date.now()
         const newHero = {
             id,
             ...hero
@@ -36,6 +36,33 @@ class Database {
         const data = await this.getFileData()
         const filteredData = data.filter(item => (item ? (item.id === id) : true))
         return filteredData
+    }
+
+    async removeHero(id) {
+        if (!id) {
+            return false
+        }
+        const data = await this.getFileData()
+        const index = data.findIndex( item => item.id === parseInt(id))
+        if (index === -1){
+            throw Error(`This hero doesn't exist`)
+        }
+        data.splice(index,1)
+        return await this.writeFile(data)
+    }
+
+    async updateHero(id, newData){
+        if(!id){
+            throw Error(`You didn't pass a valid id`)
+        }
+
+        const data = await this.getFileData()
+        const index = data.findIndex( item => item.id === parseInt(id))
+        if (index === -1){
+            throw Error(`This hero doesn't exist`)
+        }
+        data[index] = newData
+        return await this.writeFile(data)
     }
 }
 
