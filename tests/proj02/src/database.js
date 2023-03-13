@@ -34,7 +34,7 @@ class Database {
 
     async list(id) {
         const data = await this.getFileData()
-        const filteredData = data.filter(item => (item ? (item.id === id) : true))
+        const filteredData = data.filter(item => (id ? (item.id === id) : true))
         return filteredData
     }
 
@@ -61,8 +61,13 @@ class Database {
         if (index === -1){
             throw Error(`This hero doesn't exist`)
         }
-        data[index] = newData
-        return await this.writeFile(data)
+        const current = data[index]
+        const updateObject = {
+            ...current,
+            ...newData
+        }
+        data.splice(index,1)
+        return await this.writeFile([...data, updateObject])
     }
 }
 

@@ -1,17 +1,1 @@
-[
-    {
-        "id": 2,
-        "name": "Batman",
-        "power": "Speed"
-    },
-    {
-        "name": "Iron Man",
-        "power": "Money",
-        "id": 3
-    },
-    {
-        "id": 2,
-        "name": "Batman",
-        "power": "Speed"
-    }
-]
+[{"id":1,"name":"Rafa","power":"Great2"}]
