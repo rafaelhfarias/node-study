@@ -1,0 +1,14 @@
+{
+  "name": "databases",
+  "version": "1.0.0",
+  "description": "docker run \\     --name postgres \\     -e POSTGRES_USER=rafaelhf \\     -e POSTGRES_PASSWORD=password \\     -e POSTGRES_DB=heroes \\     -p 5432:5432 \\     -d \\     postgres",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch src/index.js "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
