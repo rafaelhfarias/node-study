@@ -6,32 +6,9 @@ export class Postgres extends ICrud {
         super()
         this._driver = null
         this._heroes = null
-        this._connect()
     }
-
-    _connect() {
-        this._driver = new Sequelize.Sequelize('heroes', 'rafaelhf', 'password',
-            {
-                host: 'localhost',
-                dialect: 'postgres',
-                quoteIdentifiers: false,
-                operatorsAliases: false
-            }
-        )
-    }
-
-    async isConnected() {
-        try {
-            await this._driver.authenticate()
-            return true
-        } catch (error) {
-            console.log('failed to connect', error)
-            return false
-        }
-    }
-
     async defineModel() {
-        this._heroes = driver.define('heroes', {
+        this._heroes = this._driver.define('heroes', {
             id: {
                 type: Sequelize.INTEGER,
                 required: true,
@@ -52,10 +29,46 @@ export class Postgres extends ICrud {
             timestamps: false
         }
         )
-        await Heroes.sync()
+        await this._heroes.sync()
     }
 
-    create(item) {
-        console.log("Item foi salvo em Postgres")
+    async connect() {
+        this._driver = new Sequelize.Sequelize('heroes', 'rafaelhf', 'password',
+            {
+                host: 'localhost',
+                dialect: 'postgres',
+                quoteIdentifiers: false,
+                operatorsAliases: false
+            }
+        )
+        await this.defineModel()
+    }
+
+    async isConnected() {
+        try {
+            await this._driver.authenticate()
+            return true
+        } catch (error) {
+            console.log('failed to connect', error)
+            return false
+        }
+    }
+
+    async create(item) {
+        const { dataValues } = await this._heroes.create(item)
+        return dataValues
+    }
+
+    async read(item = {}) {
+        return await this._heroes.findAll({ where: item, raw: true })
+    }
+
+    async update(id, newItem) {
+        const [_, [result]] = await this._heroes.update(newItem, { where: { id: id }, returning: true, raw: true })
+        return result
+    }
+
+    async delete(id) {
+        return await this._heroes.destroy({ where: { id: id } })
     }
 }

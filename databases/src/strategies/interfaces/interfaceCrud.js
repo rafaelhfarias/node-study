@@ -1,5 +1,5 @@
-class NotImplementedException extends Error{
-    constructor(){
+class NotImplementedException extends Error {
+    constructor() {
         super("Not Implemented Exception")
     }
 }
@@ -10,19 +10,23 @@ export class ICrud {
         throw new NotImplementedException()
     }
 
-    read(item){
+    read(item) {
         throw new NotImplementedException()
     }
 
-    update(id, item){
+    update(id, item) {
         throw new NotImplementedException()
     }
 
-    delete(id){
+    delete(id) {
         throw new NotImplementedException()
     }
 
-    isConnected(){
+    isConnected() {
+        throw new NotImplementedException()
+    }
+
+    connect() {
         throw new NotImplementedException()
     }
 }

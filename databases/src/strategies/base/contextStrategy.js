@@ -5,6 +5,10 @@ export class ContextStrategy extends ICrud {
         this._database = strategy
     }
 
+    connect() {
+        return this._database.connect()
+    }
+
     create(item) {
         return this._database.create(item)
     }
