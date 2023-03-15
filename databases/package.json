@@ -5,13 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha src/tests/*.test.js",
+    "test": "mocha src/tests/*test.js",
     "dev": "node --watch src/index.js "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "mongoose": "^7.0.1",
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.29.3"

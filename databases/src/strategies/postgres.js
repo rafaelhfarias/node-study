@@ -38,7 +38,6 @@ export class Postgres extends ICrud {
                 host: 'localhost',
                 dialect: 'postgres',
                 quoteIdentifiers: false,
-                operatorsAliases: false
             }
         )
         await this.defineModel()
