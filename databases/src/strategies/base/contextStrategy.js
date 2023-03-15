@@ -5,7 +5,7 @@ export class ContextStrategy extends ICrud {
         this._database = strategy
     }
 
-    connect() {
+    static connect() {
         return this._database.connect()
     }
 

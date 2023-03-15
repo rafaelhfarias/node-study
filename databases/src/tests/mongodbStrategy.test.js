@@ -1,7 +1,9 @@
-import { MongoDB } from '../strategies/mongodb.js'
+import { MongoDB } from '../strategies/mongodb/mongodb.js'
 import { ContextStrategy } from '../strategies/base/contextStrategy.js'
+import { HeroSchema } from '../strategies/mongodb/schemas/heroSchema.js'
 import assert from 'node:assert'
-const context = new ContextStrategy(new MongoDB())
+
+
 const DEFAULT_HERO_CREATE = {
     name: 'Spider Man',
     power: 'Web'
@@ -12,9 +14,12 @@ const DEFAULT_HERO_UPDATE = {
     power: 'Alien'
 }
 
+let context = {}
+
 describe('Testing MongoDB', () => {
     before(async () => {
-        await context.connect()
+        const connection = await (MongoDB.connect())
+        context = new ContextStrategy(new MongoDB(connection, HeroSchema))
         await context.create(DEFAULT_HERO_UPDATE)
     })
 
@@ -44,7 +49,6 @@ describe('Testing MongoDB', () => {
 
     it('Delete Hero', async () => {
         const deleteObject = await context.read(DEFAULT_HERO_CREATE)
-        console.log('deleteObject', deleteObject)
         const result = await context.delete(deleteObject._id)
         assert.deepEqual(result, 1)
     })

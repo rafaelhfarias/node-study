@@ -1,9 +1,8 @@
 import assert from 'node:assert'
-import { Postgres } from '../strategies/postgres.js'
+import { Postgres } from '../strategies/postgres/postgres.js'
 import { ContextStrategy } from '../strategies/base/contextStrategy.js'
+import heroSchema from '../strategies/postgres/schemas/heroSchema.js'
 
-
-const context = new ContextStrategy(new Postgres())
 const MOCK_HERO_CREATE = {
     name: 'Superman',
     power: 'Everything'
@@ -14,9 +13,13 @@ const MOCK_HERO_UPDATE = {
     power: 'Money'
 }
 
+let context = {}
+
 describe('Postgres strategy', () => {
     before(async () => {
-        await context.connect()
+        const connection = await Postgres.connect()
+        const model = await Postgres.defineModel(connection, heroSchema)
+        context = new ContextStrategy(new Postgres(connection, model))
         await context.create(MOCK_HERO_UPDATE)
     })
     it('PostgreSQL Connection', async () => {
